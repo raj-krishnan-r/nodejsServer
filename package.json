@@ -1,0 +1,5 @@
+{
+"name":"notesChat","version ":"0.0.0","description" : "Real Time webchat",
+"dependencies":{"socket.io":"latest","express":"latest","jade":"latest"},"author":"raj krishnan r"
+
+}
