@@ -65,6 +65,7 @@
       </div>
       <script>
           var cell = 0;
+          var filledCells=0;
      for(var i=1;i<=5;i++)
      {
          var tr = document.createElement('tr');
@@ -76,12 +77,13 @@
           tr.appendChild(td);
           td.setAttribute('class','cells');
           td.setAttribute('id','cell-'+cell);
-          td.setAttribute('data-tick','false');
-
-          td.innerHTML=cell;
+          //td.setAttribute('data-tick','false');
+          //td.innerHTML=cell;
           td.addEventListener('click',function(e){
-              if(this.dataset.tick=='false')
-         socket.emit('click num',this.innerHTML);
+              if(this.dataset.tick==='false'&&filledCells==25)
+     socket.emit('click num',this.innerHTML);
+ else{
+     number(this);}
           });
          }
      }
@@ -89,6 +91,26 @@
      {
          document.getElementById('cell-'+num).setAttribute('class','tickedCell');
          document.getElementById('cell-'+num).dataset.tick='true';
+     }
+     var count = 0;
+     
+     function number(ob)
+     {
+         if(ob.innerHTML!=='')
+         return;
+     
+      ob.innerHTML=++count; 
+       if(count===25)
+      {
+      filledCells=25;
+      var i = 0;
+      while(i<25)
+      {
+          ++i;
+          document.getElementById('cell-'+i).setAttribute('data-tick','false');
+      }
+        return;
+      }
      }
       </script>
     <ul id="messages"></ul>
