@@ -80,17 +80,29 @@
           //td.setAttribute('data-tick','false');
           //td.innerHTML=cell;
           td.addEventListener('click',function(e){
-              if(this.dataset.tick==='false'&&filledCells==25)
-     socket.emit('click num',this.innerHTML);
- else{
+              if(this.dataset.tick==='false'&&filledCells===25){
+            socket.emit('click num',this.innerHTML);
+ }
+ else if(filledCells<25){
      number(this);}
           });
          }
      }
      function tickCell(num)
      {
-         document.getElementById('cell-'+num).setAttribute('class','tickedCell');
-         document.getElementById('cell-'+num).dataset.tick='true';
+         /*
+          * The functions finds and alters the attributes of the cell which has the innerHTML defined on 'num'.
+          */
+         var i = 1;
+         while(i<=25)
+         {
+             if(document.getElementById('cell-'+i).innerHTML===num)
+             {
+         document.getElementById('cell-'+i).setAttribute('class','tickedCell');
+         document.getElementById('cell-'+i).dataset.tick='true';
+     }
+         i++;
+     }
      }
      var count = 0;
      
@@ -117,12 +129,12 @@
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
-<script>
+<script>/*
   $('form').submit(function(){
     socket.emit('chat message', $('#m').val());
     $('#m').val('');
     return false;
-  });
+  });*/
 socket.on('chat message',function(msg)
 {
 $('#messages').append($('<li>').text(msg));
