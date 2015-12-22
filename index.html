@@ -12,17 +12,65 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+      .cells
+      {
+          display:table-cell;
+          width:50px;
+          height:50px;
+          border:1px solid blue;
+          vertical-align: middle;
+          text-align: center;
+          cursor:pointer;
+      }
+      .cells:hover
+      {
+                    background: rgb(162, 187, 232);
+      }
+      #num
+      {
+          text-align: center;
+          font-size: 50px;
+          color: rgb(148, 199, 107);
+      }
     </style>
+      <script src = "/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  var socket = io();
+  </script>
   </head>
-  <body>
+
+  <body><div id="num">0</div>
+      <div align="center">
+      <table id="table">
+          
+      </table>
+      </div>
+      <script>
+     for(var i=0;i<5;i++)
+     {
+         var tr = document.createElement('tr');
+         document.getElementById('table').appendChild(tr);
+         for(var j = 0;j<5;j++)
+         {
+          var td = document.createElement('td');
+          tr.appendChild(td);
+          td.setAttribute('class','cells');
+          td.setAttribute('id','cell-'+(j+1)*(i+1));
+          td.innerHTML=(j+1)*(i+1);
+          td.addEventListener('click',function(e){
+              console.log(e.srcElement.id);
+                  socket.emit('click num', $('#m').document.getElementById(e.srcElement.id).innerHTML);
+
+          });
+         }
+     }
+      </script>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
-<script src = "/socket.io/socket.io.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  var socket = io();
   $('form').submit(function(){
     socket.emit('chat message', $('#m').val());
     $('#m').val('');
@@ -31,6 +79,10 @@
 socket.on('chat message',function(msg)
 {
 $('#messages').append($('<li>').text(msg));
+});
+socket.on('click num',function(msg)
+{
+document.getElementById('num').innerHTML=msg;
 });
 </script>
   </body>

@@ -16,6 +16,10 @@ socket.on('chat message',function(msg)
 //console.log('\n '+msg+'');
 io.emit('chat message',msg);
 });
+socket.on('click num',function(msg)
+{
+console.log('\n '+msg+'');
+});
 });
 
 http.listen(3000,function()
