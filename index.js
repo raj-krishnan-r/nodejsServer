@@ -1,22 +1,24 @@
-var express = require("express");
-var app = express();
-var port = 3709;
-app.set('views',__dirname+'/tpl');
-app.set('view engine',"jade");
-app.engine('jade',require('jade').__express);
-app.get("/",function(req,res){
-//res.send("IT is Up");
-res.render("page");
-});
-app.use(express.static(__dirname+'/public'));
-//app.listen(port);
-var io=require('socket.io').listen(app.listen(port));
-io.sockets.on('connection',function(socket)
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+app.get('/',function(req,res)
 {
-socket.emit('message',{message:'welcome to Notes Chat'});
-socket.on('send',function(data){
-io.sockets.emit('message',data);
+res.sendFile(__dirname+'/index.html');
+});
+
+io.on('connection',function(socket){
+console.log('A user Connected');
+socket.on('disconnect',function(){
+console.log('One User Disconnected');
+});
+socket.on('chat message',function(msg)
+{
+//console.log('\n '+msg+'');
+io.emit('chat message',msg);
 });
 });
 
-console.log('http://127.0.0.1:'+port);
+http.listen(3000,function()
+{
+console.log('listening on *:3000');
+});
