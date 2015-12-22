@@ -18,11 +18,13 @@ io.emit('chat message',msg);
 });
 socket.on('click num',function(msg)
 {
-console.log('\n '+msg+'');
+//console.log('\n '+msg+'');
+io.emit('click num',msg);
+
 });
 });
 
-http.listen(3000,function()
+http.listen(3001,function()
 {
-console.log('listening on *:3000');
+console.log('listening on *:3001');
 });
