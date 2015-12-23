@@ -52,6 +52,7 @@
   </head>
 
   <body>
+      <audio src="hi.mp3" id="tido"></audio>
             <script src = "/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
@@ -142,7 +143,16 @@ $('#messages').append($('<li>').text(msg));
 socket.on('click num',function(msg)
 {
 tickCell(msg);
+         document.getElementById('tido').play();
+
 document.getElementById('num').innerHTML=msg;
+});
+socket.on('disconnected',function(msg)
+{
+if(msg==='dis')
+{
+    alert('The opponent left, u won');
+}
 });
 </script>
   </body>
